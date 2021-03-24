@@ -30,7 +30,7 @@ from kajiki import PackageLoader
 log = logging.getLogger(__name__)
 
 # version of the Zarr layout
-LAYOUT_VERSION = 1
+LAYOUT_VERSION = 2
 
 
 class MaxQueuePool(object):
@@ -473,10 +473,7 @@ class WriteTiles(object):
             log.info("wrote %s image" % image_type)
 
     def create_tile_directory(self, series, resolution, width, height):
-        tile_directory = os.path.join(
-            self.slide_directory, "data.zarr"
-        )
-        self.zarr_store = zarr.DirectoryStore(tile_directory)
+        self.zarr_store = zarr.DirectoryStore(self.slide_directory)
         self.zarr_group = zarr.group(store=self.zarr_store)
         self.zarr_group.attrs['bioformats2raw.layout'] = LAYOUT_VERSION
 
